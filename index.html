@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>UA calculators TA2</title>
+  <meta name="description" content="UA calculators TA2 — 14 Hours, REST CHECK, and Piggybacking / 7 in 1." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #050506;
+      --card: rgba(255, 255, 255, 0.035);
+      --card-hover: rgba(255, 255, 255, 0.06);
+      --border: rgba(255, 255, 255, 0.08);
+      --text: #f4f4f7;
+      --muted: #9a9aaa;
+      --accent: #ff6e25;
+      --accent-dim: rgba(255, 110, 37, 0.15);
+      --navy: #243447;
+      --glow: 0 0 40px rgba(255, 110, 37, 0.12);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { min-height: 100%; }
+    body {
+      font-family: Inter, system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+    }
+    canvas#stars {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+    .wrap {
+      position: relative;
+      z-index: 1;
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 0 24px 80px;
+    }
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 28px 0 8px;
+    }
+    .brand {
+      font-family: "Space Grotesk", sans-serif;
+      font-weight: 700;
+      font-size: 1.15rem;
+      letter-spacing: -0.03em;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: var(--text);
+    }
+    .brand-mark {
+      width: 32px;
+      height: 28px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, var(--accent), #ff9a4d);
+      display: grid;
+      place-items: center;
+      font-size: 11px;
+      font-weight: 700;
+      color: #111;
+    }
+    .hero {
+      text-align: center;
+      padding: 64px 0 48px;
+    }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 18px;
+    }
+    .eyebrow::before, .eyebrow::after {
+      content: "";
+      width: 18px;
+      height: 1px;
+      background: var(--accent);
+      opacity: 0.5;
+    }
+    h1 {
+      font-family: "Space Grotesk", sans-serif;
+      font-size: clamp(2.4rem, 6.5vw, 4rem);
+      font-weight: 700;
+      letter-spacing: -0.045em;
+      line-height: 1.05;
+      margin-bottom: 16px;
+    }
+    h1 span {
+      background: linear-gradient(90deg, #fff 20%, var(--accent) 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .hero p {
+      max-width: 520px;
+      margin: 0 auto;
+      color: var(--muted);
+      font-size: 1.05rem;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+    }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 24px;
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      transition: background 0.2s, border-color 0.2s, transform 0.2s;
+      min-height: 240px;
+    }
+    .card:hover {
+      background: var(--card-hover);
+      border-color: rgba(255, 110, 37, 0.25);
+      transform: translateY(-3px);
+    }
+    .card-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      background: var(--accent-dim);
+      display: grid;
+      place-items: center;
+      font-size: 1.15rem;
+      font-weight: 700;
+      font-family: "Space Grotesk", sans-serif;
+      color: var(--accent);
+      margin-bottom: 4px;
+    }
+    .card.live .card-icon {
+      background: rgba(36, 52, 71, 0.85);
+      color: #f4efe6;
+    }
+    .card h2 {
+      font-family: "Space Grotesk", sans-serif;
+      font-size: 1.25rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+    }
+    .card p { color: var(--muted); font-size: 0.92rem; flex: 1; }
+    .card-meta {
+      font-size: 0.75rem;
+      color: var(--accent);
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      margin-top: 6px;
+    }
+    footer {
+      margin-top: 72px;
+      padding-top: 28px;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 0.8rem;
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    footer a { color: var(--muted); text-decoration: none; }
+    footer a:hover { color: var(--text); }
+    @media (max-width: 600px) {
+      .hero { padding: 44px 0 36px; }
+      header { padding-top: 20px; }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="stars" aria-hidden="true"></canvas>
+  <div class="wrap">
+    <header>
+      <a class="brand" href="./">
+        <span class="brand-mark">UA</span>
+        UA calculators TA2
+      </a>
+    </header>
+    <section class="hero">
+      <div class="eyebrow">TA2</div>
+      <h1>UA calculators<br /><span>TA2</span></h1>
+      <p>Three United FA tools: pickup windows, crew rest, and add-on legality.</p>
+    </section>
+    <div class="grid">
+      <a class="card" href="./fourteen.html">
+        <div class="card-icon">14</div>
+        <h2>14 Hours</h2>
+        <p>Fourteen. Pickup-window calculator for United flight attendants.</p>
+        <div class="card-meta">Open app →</div>
+      </a>
+      <a class="card" href="https://uarest.grok.me" target="_blank" rel="noopener">
+        <div class="card-icon">R</div>
+        <h2>REST CHECK</h2>
+        <p>Crew rest calculator for flight pairings.</p>
+        <div class="card-meta">uarest.grok.me →</div>
+      </a>
+      <a class="card live" href="https://7in1.grok.me" target="_blank" rel="noopener">
+        <div class="card-icon">7</div>
+        <h2>Piggybacking / 7 in 1</h2>
+        <p>Add-On Check. See if an extra trip is legal under the 2026–2031 agreement, live as you type.</p>
+        <div class="card-meta">7in1.grok.me →</div>
+      </a>
+    </div>
+    <footer>
+      <span>UA calculators TA2</span>
+      <a href="https://7in1.grok.me" target="_blank" rel="noopener">Add-On Check is live</a>
+    </footer>
+  </div>
+  <script>
+    const c = document.getElementById("stars");
+    const ctx = c.getContext("2d");
+    let w, h, stars = [];
+    function resize() {
+      w = c.width = innerWidth;
+      h = c.height = innerHeight;
+      stars = Array.from({ length: Math.min(160, Math.floor(w * h / 9000)) }, () => ({
+        x: Math.random() * w, y: Math.random() * h,
+        r: Math.random() * 1.2 + 0.2, a: Math.random(),
+        s: Math.random() * 0.008 + 0.002
+      }));
+    }
+    function draw() {
+      ctx.clearRect(0, 0, w, h);
+      for (const s of stars) {
+        s.a += s.s;
+        const alpha = 0.15 + 0.55 * (0.5 + 0.5 * Math.sin(s.a * 6));
+        ctx.beginPath();
+        ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255,255,255,${alpha})`;
+        ctx.fill();
+      }
+      requestAnimationFrame(draw);
+    }
+    resize();
+    addEventListener("resize", resize);
+    draw();
+  </script>
+</body>
+</html>
